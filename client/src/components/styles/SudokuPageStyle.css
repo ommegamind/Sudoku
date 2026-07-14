@@ -1,0 +1,36 @@
+.body,html,#root{
+    background-color: white;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.board{
+    height: 60vh;
+    width: 61vw;
+    background-color: greenyellow;
+    display: flex;
+    flex-direction: row;
+}
+
+.row{
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.box{
+    height: 20vh;
+    width: 20vw;
+    border-color: black;
+    border-style:solid;
+}
+
+.selected{
+    background-color: rgb(1, 96, 1);
+}
