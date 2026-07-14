@@ -3,29 +3,49 @@ import "./styles/SudokuPageStyle.css"
 
 export const SudokuPage =()=>{
 
+    const boxes={
+        "box1":"",
+        "box2":"",
+        "box3":"",
+        "box4":"",
+        "box5":"",
+        "box6":"",
+        "box7":"",
+        "box8":"",
+        "box9":""
+    }
     const [inUse, setInUse]=useState("")
+    const [board, setBoard]=useState({...boxes})
 
     const boxClickHandle=(boxName)=>{
         setInUse(boxName)
+    }
+
+    const boxInputHandle =(e)=>{
+        const input =e.target.value
+
+        if (/^[1-9]?$/.test(input)){
+            setBoard((prev)=>{return {...prev, [inUse]:[input]}})
+        }
     }
 
     return(<>
     <h2>Sudoku</h2>
     <div className="board">
         <div className="row">
-            <div className={`box ${inUse=="box1"?'selected':""}`} id="box1" onClick={()=>boxClickHandle("box1")}></div>
-            <div className={`box ${inUse=="box2"?'selected':""}`} id="box2" onClick={()=>boxClickHandle("box2")}></div>
-            <div className={`box ${inUse=="box3"?'selected':""}`} id="box3" onClick={()=>boxClickHandle("box3")}></div>
+            <input className={`box ${inUse=="box1"?'selected':""}`} onClick={()=>boxClickHandle("box1")} value={board.box1} onChange={boxInputHandle}/>
+            <input className={`box ${inUse=="box2"?'selected':""}`} onClick={()=>boxClickHandle("box2")} value={board.box2} onChange={boxInputHandle}/>
+            <input className={`box ${inUse=="box3"?'selected':""}`} onClick={()=>boxClickHandle("box3")} value={board.box3} onChange={boxInputHandle}/>
         </div>
         <div className="row">
-            <div className={`box ${inUse=="box4"?'selected':""}`} id="box4" onClick={()=>boxClickHandle("box4")}></div>
-            <div className={`box ${inUse=="box5"?'selected':""}`} id="box5" onClick={()=>boxClickHandle("box5")}></div>
-            <div className={`box ${inUse=="box6"?'selected':""}`} id="box6" onClick={()=>boxClickHandle("box6")}></div>
+            <input className={`box ${inUse=="box4"?'selected':""}`} onClick={()=>boxClickHandle("box4")} value={board.box4} onChange={boxInputHandle}/>
+            <input className={`box ${inUse=="box5"?'selected':""}`} onClick={()=>boxClickHandle("box5")} value={board.box5} onChange={boxInputHandle}/>
+            <input className={`box ${inUse=="box6"?'selected':""}`} onClick={()=>boxClickHandle("box6")} value={board.box6} onChange={boxInputHandle}/>
         </div>
         <div className="row">
-            <div className={`box ${inUse=="box7"?'selected':""}`} id="box7" onClick={()=>boxClickHandle("box7")}></div>
-            <div className={`box ${inUse=="box8"?'selected':""}`} id="box8" onClick={()=>boxClickHandle("box8")}></div>
-            <div className={`box ${inUse=="box9"?'selected':""}`} id="box9" onClick={()=>boxClickHandle("box9")}></div>
+            <input className={`box ${inUse=="box7"?'selected':""}`} onClick={()=>boxClickHandle("box7")} value={board.box7} onChange={boxInputHandle}/>
+            <input className={`box ${inUse=="box8"?'selected':""}`} onClick={()=>boxClickHandle("box8")} value={board.box8} onChange={boxInputHandle}/>
+            <input className={`box ${inUse=="box9"?'selected':""}`} onClick={()=>boxClickHandle("box9")} value={board.box9} onChange={boxInputHandle}/>
         </div>
     </div>
     </>)

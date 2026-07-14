@@ -29,6 +29,8 @@
     width: 20vw;
     border-color: black;
     border-style:solid;
+    font-size: 7vh;
+    text-align: center;
 }
 
 .selected{
