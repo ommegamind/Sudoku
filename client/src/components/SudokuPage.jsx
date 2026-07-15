@@ -3,6 +3,28 @@ import "./styles/SudokuPageStyle.css"
 
 export const SudokuPage =()=>{
 
+    const randomNumSetHandle=()=>{
+        const nums=new Set()
+        while(nums.size<9){
+            nums.add(Math.floor(Math.random()*9)+1)
+        }
+        const numsArray=[...nums]
+
+        const tips=Math.floor(Math.random()*4)+1
+
+        const boardIndex=[]
+        while(boardIndex.length<=tips){
+            boardIndex.push(Math.floor(Math.random()*9)+1)
+        }
+        
+        const finalBoard={}
+        for(let i=0; i<=tips; i++){
+            finalBoard[`box${boardIndex[i]}`]=numsArray[boardIndex[i]]
+        }
+
+        return finalBoard
+    }
+
     const boxes={
         "box1":"",
         "box2":"",
@@ -29,6 +51,17 @@ export const SudokuPage =()=>{
         }
     }
 
+    const resetHandle=()=>{
+        setBoard({...boxes})
+        setInUse("")
+    }
+
+    const newGameHandle=()=>{
+        resetHandle()
+        const nums=randomNumSetHandle()
+        console.log(nums)
+    }
+
     return(<>
     <h2>Sudoku</h2>
     <div className="board">
@@ -47,6 +80,10 @@ export const SudokuPage =()=>{
             <input className={`box ${inUse=="box8"?'selected':""}`} onClick={()=>boxClickHandle("box8")} value={board.box8} onChange={boxInputHandle}/>
             <input className={`box ${inUse=="box9"?'selected':""}`} onClick={()=>boxClickHandle("box9")} value={board.box9} onChange={boxInputHandle}/>
         </div>
+    </div>
+    <div>
+        <button onClick={newGameHandle}>New Game</button>
+        <button onClick={resetHandle}>Clear</button>
     </div>
     </>)
 }
