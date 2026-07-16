@@ -38,8 +38,10 @@ export const SudokuPage =()=>{
     }
     const [inUse, setInUse]=useState("")
     const [board, setBoard]=useState({...boxes})
+    const [puzzle, setPuzzle]=useState("")
 
     const boxClickHandle=(boxName)=>{
+        if(boxName in puzzle) return
         setInUse(boxName)
     }
 
@@ -59,6 +61,7 @@ export const SudokuPage =()=>{
     const newGameHandle=()=>{
         resetHandle()
         const finalBoard=randomNumSetHandle()
+        setPuzzle(finalBoard)
         setBoard((prev)=>{
             return{...prev,
                 ...finalBoard
