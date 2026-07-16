@@ -49,24 +49,21 @@ export const SudokuPage =()=>{
         const input =e.target.value
 
         if (/^[1-9]?$/.test(input)){
-            setBoard((prev)=>{return {...prev, [inUse]:[input]}})
+            setBoard((prev)=>{return {...prev, [inUse]:input}})
         }
     }
 
     const resetHandle=()=>{
-        setBoard({...boxes})
+        setBoard(()=>{
+            return{...boxes, ...puzzle}
+        })
         setInUse("")
     }
 
     const newGameHandle=()=>{
-        resetHandle()
         const finalBoard=randomNumSetHandle()
         setPuzzle(finalBoard)
-        setBoard((prev)=>{
-            return{...prev,
-                ...finalBoard
-            }
-        })
+        setBoard({...boxes, ...finalBoard})
     }
 
     return(<>
