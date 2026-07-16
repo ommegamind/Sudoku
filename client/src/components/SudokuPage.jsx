@@ -19,7 +19,7 @@ export const SudokuPage =()=>{
         
         const finalBoard={}
         for(let i=0; i<=tips; i++){
-            finalBoard[`box${boardIndex[i]}`]=numsArray[boardIndex[i]]
+            finalBoard[`box${boardIndex[i]}`]=numsArray[boardIndex[i]-1]
         }
 
         return finalBoard
@@ -58,8 +58,12 @@ export const SudokuPage =()=>{
 
     const newGameHandle=()=>{
         resetHandle()
-        const nums=randomNumSetHandle()
-        console.log(nums)
+        const finalBoard=randomNumSetHandle()
+        setBoard((prev)=>{
+            return{...prev,
+                ...finalBoard
+            }
+        })
     }
 
     return(<>
