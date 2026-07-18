@@ -2,16 +2,20 @@ import "./styles/SudokuNineStyle.css"
 
 export const SudokuNine=()=>{
 
-    const boardElement={}
+    const boardElement=[]
     for(let i=1;i<10;i++){
+        const row=[]
         for(let j=1;j<10;j++){
-            boardElement[`box${i}${j}`]=""
+            row.push("")
         }
+        boardElement.push(row)
     }
 
-    const boardBoxes= Object.entries(boardElement).map(([key, value])=> {
-            return(<input key={key} className="box" value={key}/>)
-        })
+    const boardBoxes= boardElement.map((row, rIndex)=> row.map((num, cIndex)=>{
+        return(<input key={`${rIndex}${cIndex}`} 
+                      className="box"
+                      value={`${rIndex}${cIndex}`}/>)
+    }))
 
 
 
