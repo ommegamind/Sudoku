@@ -82,6 +82,65 @@ export const SudokuNine=()=>{
 
     fillBoard(boardElement)
 
+    const countSolutions=(boardCopy)=>{
+        let solution=0
+
+        for(let row=0;row<9;row++){
+
+            for(let col=0;col<9;col++){
+
+                if(boardCopy[row][col]==0){
+
+                    for(let num=1; num<10;num++){
+
+                        if(isValid(boardCopy, row, col, num)){
+                            boardCopy[row][col]=num
+
+                            solution+=countSolutions(boardCopy)
+
+                            boardCopy[row][col]=0
+                        }
+                    }
+                    return 1
+                }
+            }
+        }
+        return solution
+    }
+
+    const createPuzzle=(board, gaps)=>{
+        let size=0
+
+        const index=[]
+
+        for(let row=0; row<9; row++){
+            for(let col=0; col<9; col++){
+                index.push([row, col])
+            }
+        }
+
+        const randomIndex= shuffle(index)
+        console.log(randomIndex)
+
+        while(size<gaps){
+            for(let index=0; index<randomIndex.length;index++){
+                const restoreVal=board[[randomIndex[index[0]]][randomIndex[index[1]]]]
+                const copyBoard= board.map((row)=>[...row])
+                copyBoard[[randomIndex[index[0]]][randomIndex[index[1]]]]=0
+
+                if(countSolutions(copyBoard)===1){
+                    board[[randomIndex[index[0]]][randomIndex[index[1]]]]=0
+                    size++
+                }
+            }
+            break
+        }
+        return board
+    }
+
+    createPuzzle(boardElement, 40)
+
+
     const boardBoxes= boardElement.map((row, rIndex)=> row.map((num, cIndex)=>{
         return(<input key={`${rIndex}${cIndex}`} 
                       className="box"
