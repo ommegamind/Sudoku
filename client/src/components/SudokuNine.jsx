@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import "./styles/SudokuNineStyle.css";
 
 export const SudokuNine = () => {
@@ -65,6 +66,8 @@ export const SudokuNine = () => {
   };
 
   const boardElement = [];
+  const [displayBoard, setDisplayBoard] = useState([]);
+
   for (let i = 1; i < 10; i++) {
     const row = [];
     for (let j = 1; j < 10; j++) {
@@ -127,17 +130,44 @@ export const SudokuNine = () => {
         board[row][col] = restoreVal;
       }
     }
+
+    setDisplayBoard(board);
+    console.log(board);
   };
 
-  createPuzzle(boardElement, 40);
+  useEffect(() => {
+    createPuzzle(boardElement, 40);
+  }, []);
 
-  const boardBoxes = boardElement.map((row, rIndex) =>
+  const puzzleInputHandle = (e) => {
+    const input = e.target.value;
+    const validateInput = /^[1-9]$/;
+    if (validateInput.test(input)) {
+      return input;
+    }
+    return 0;
+  };
+
+  const boardBoxes = displayBoard.map((row, rIndex) =>
     row.map((num, cIndex) => {
       return (
         <input
           key={`${rIndex}${cIndex}`}
           className="box"
-          value={`${num > 0 ? num : " "}`}
+          value={`${num > 0 ? num : ""}`}
+          onChange={(e) => {
+            if (num > 0) {
+              return;
+            }
+            const val = puzzleInputHandle(e);
+            if (val != 0) {
+              setDisplayBoard((prev) => {
+                const copy = prev.map((row) => [...row]);
+                copy[rIndex][cIndex] = val;
+                return copy;
+              });
+            }
+          }}
         />
       );
     }),
