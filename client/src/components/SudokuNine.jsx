@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 import "./styles/SudokuNineStyle.css";
 
 export const SudokuNine = () => {
+  const [boardElement, setBoardElement] = useState(
+    Array.from({ length: 9 }, () => Array(9).fill(0)),
+  );
+  const [displayBoard, setDisplayBoard] = useState(
+    Array.from({ length: 9 }, () => Array(9).fill(0)),
+  );
+
   const shuffle = (arr) => {
     let i = arr.length - 1;
     while (i > 0) {
@@ -65,19 +72,6 @@ export const SudokuNine = () => {
     return true;
   };
 
-  const boardElement = [];
-  const [displayBoard, setDisplayBoard] = useState([]);
-
-  for (let i = 1; i < 10; i++) {
-    const row = [];
-    for (let j = 1; j < 10; j++) {
-      row.push(0);
-    }
-    boardElement.push(row);
-  }
-
-  fillBoard(boardElement);
-
   const countSolutions = (boardCopy) => {
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
@@ -130,22 +124,30 @@ export const SudokuNine = () => {
         board[row][col] = restoreVal;
       }
     }
-
-    setDisplayBoard(board);
-    console.log(board);
   };
 
-  useEffect(() => {
-    createPuzzle(boardElement, 40);
-  }, []);
+  const newGameHandler = () => {
+    const elementCopy = boardElement.map((row) => [...row]);
+    fillBoard(elementCopy);
+    createPuzzle(elementCopy, 40);
+    setBoardElement(elementCopy);
+    setDisplayBoard(elementCopy);
+  };
 
-  const puzzleInputHandle = (e) => {
-    const input = e.target.value;
-    const validateInput = /^[1-9]$/;
-    if (validateInput.test(input)) {
-      return input;
+  const puzzleInputHandle = (e, row, col) => {
+    if (boardElement[row][col] > 0) {
+      return;
     }
-    return 0;
+    const userInput = e.target.value;
+    const validateInput = /^[1-9]?$/;
+    if (validateInput.test(userInput)) {
+      setDisplayBoard((prev) => {
+        const copy = prev.map((row) => [...row]);
+        copy[row][col] = parseInt(userInput);
+        return copy;
+      });
+    }
+    return;
   };
 
   const boardBoxes = displayBoard.map((row, rIndex) =>
@@ -155,19 +157,7 @@ export const SudokuNine = () => {
           key={`${rIndex}${cIndex}`}
           className="box"
           value={`${num > 0 ? num : ""}`}
-          onChange={(e) => {
-            if (num > 0) {
-              return;
-            }
-            const val = puzzleInputHandle(e);
-            if (val != 0) {
-              setDisplayBoard((prev) => {
-                const copy = prev.map((row) => [...row]);
-                copy[rIndex][cIndex] = val;
-                return copy;
-              });
-            }
-          }}
+          onChange={(e) => puzzleInputHandle(e, rIndex, cIndex)}
         />
       );
     }),
@@ -177,6 +167,9 @@ export const SudokuNine = () => {
     <>
       <h1>Sudoku 9x9</h1>
       <div className="playBoard">{boardBoxes}</div>
+      <button onClick={newGameHandler}>New Game</button>
+      <button>Clear board</button>
+      <button>Submit</button>
     </>
   );
 };
