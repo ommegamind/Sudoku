@@ -168,7 +168,7 @@ export const SudokuNine = () => {
       <h1>Sudoku 9x9</h1>
       <div className="playBoard">{boardBoxes}</div>
       <button onClick={newGameHandler}>New Game</button>
-      <button>Clear board</button>
+      <button onClick={() => setDisplayBoard(boardElement)}>Clear board</button>
       <button>Submit</button>
     </>
   );
