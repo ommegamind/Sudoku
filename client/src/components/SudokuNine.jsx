@@ -8,6 +8,11 @@ export const SudokuNine = () => {
   const [displayBoard, setDisplayBoard] = useState(
     Array.from({ length: 9 }, () => Array(9).fill(0)),
   );
+  const [displayResult, setDisplayResult] = useState("");
+
+  const [ansValidate, setAnsValidate] = useState(
+    Array.from({ length: 9 }, () => Array(9).fill(0)),
+  );
 
   const shuffle = (arr) => {
     let i = arr.length - 1;
@@ -129,9 +134,11 @@ export const SudokuNine = () => {
   const newGameHandler = () => {
     const elementCopy = boardElement.map((row) => [...row]);
     fillBoard(elementCopy);
-    createPuzzle(elementCopy, 40);
+    setAnsValidate(() => elementCopy.map((row) => [...row]));
+    createPuzzle(elementCopy, 10);
     setBoardElement(elementCopy);
     setDisplayBoard(elementCopy);
+    setDisplayResult("");
   };
 
   const puzzleInputHandle = (e, row, col) => {
@@ -148,6 +155,17 @@ export const SudokuNine = () => {
       });
     }
     return;
+  };
+
+  const submitHandler = () => {
+    console.log(ansValidate); // testing purpose
+    if (displayResult === "WRONG ANSWER :(") {
+      setDisplayResult("");
+    } else if (JSON.stringify(displayBoard) === JSON.stringify(ansValidate)) {
+      setDisplayResult("SOLVED: Congratulations!!");
+    } else {
+      setDisplayResult("WRONG ANSWER :(");
+    }
   };
 
   const boardBoxes = displayBoard.map((row, rIndex) =>
@@ -167,9 +185,16 @@ export const SudokuNine = () => {
     <>
       <h1>Sudoku 9x9</h1>
       <div className="playBoard">{boardBoxes}</div>
-      <button onClick={newGameHandler}>New Game</button>
-      <button onClick={() => setDisplayBoard(boardElement)}>Clear board</button>
-      <button>Submit</button>
+      <>
+        <button onClick={newGameHandler}>New Game</button>
+        <button onClick={() => setDisplayBoard(boardElement)}>
+          Clear board
+        </button>
+        <button onClick={submitHandler}>
+          {displayResult === "WRONG ANSWER :(" ? "clear" : "submit"}
+        </button>
+      </>
+      <h2>{displayResult}</h2>
     </>
   );
 };
