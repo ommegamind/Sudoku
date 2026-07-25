@@ -134,7 +134,8 @@ export const SudokuNine = () => {
   const newGameHandler = () => {
     const elementCopy = Array.from({ length: 9 }, () => Array(9).fill(0));
     fillBoard(elementCopy);
-    setAnsValidate(() => elementCopy.map((row) => [...row]));
+    const validator = elementCopy.map((row) => [...row]);
+    setAnsValidate(validator);
     createPuzzle(elementCopy, 30);
     setBoardElement(elementCopy);
     setDisplayBoard(elementCopy);
@@ -186,7 +187,14 @@ export const SudokuNine = () => {
       <h1>Sudoku 9x9</h1>
       <div className="playBoard">{boardBoxes}</div>
       <>
-        <button onClick={newGameHandler}>New Game</button>
+        <button
+          onClick={() => {
+            newGameHandler();
+            console.log(ansValidate);
+          }}
+        >
+          New Game
+        </button>
         <button onClick={() => setDisplayBoard(boardElement)}>
           Clear board
         </button>
