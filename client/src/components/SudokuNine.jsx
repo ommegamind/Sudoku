@@ -132,10 +132,10 @@ export const SudokuNine = () => {
   };
 
   const newGameHandler = () => {
-    const elementCopy = boardElement.map((row) => [...row]);
+    const elementCopy = Array.from({ length: 9 }, () => Array(9).fill(0));
     fillBoard(elementCopy);
     setAnsValidate(() => elementCopy.map((row) => [...row]));
-    createPuzzle(elementCopy, 10);
+    createPuzzle(elementCopy, 30);
     setBoardElement(elementCopy);
     setDisplayBoard(elementCopy);
     setDisplayResult("");
