@@ -136,7 +136,7 @@ export const SudokuNine = () => {
     fillBoard(elementCopy);
     const validator = elementCopy.map((row) => [...row]);
     setAnsValidate(validator);
-    createPuzzle(elementCopy, 30);
+    createPuzzle(elementCopy, 40);
     setBoardElement(elementCopy);
     setDisplayBoard(elementCopy);
     setDisplayResult("");
@@ -169,12 +169,30 @@ export const SudokuNine = () => {
     }
   };
 
+  const addBorder = (row, col) => {
+    let addClass = "";
+    if (row % 3 === 0) {
+      addClass += "top-border";
+    }
+    if (row === 8) {
+      addClass += " btm-border";
+    }
+    console.log(addClass);
+    if (col % 3 === 0) {
+      addClass += " left-border";
+    }
+    if (col === 8) {
+      addClass += " right-border";
+    }
+    return addClass;
+  };
+
   const boardBoxes = displayBoard.map((row, rIndex) =>
     row.map((num, cIndex) => {
       return (
         <input
           key={`${rIndex}${cIndex}`}
-          className="box"
+          className={`box ${addBorder(rIndex, cIndex)}`}
           value={`${num > 0 ? num : ""}`}
           onChange={(e) => puzzleInputHandle(e, rIndex, cIndex)}
         />
